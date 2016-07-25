@@ -22,16 +22,16 @@ public class ContatoController implements Initializable{
 	@FXML TextField txtNome;
 	@FXML Button btnInserir;
 	@FXML ListView lstContatos;
-	
+
 	private void preencherLista(){
-		
+
 		lstContatos.getItems().clear();
 		Connection con = MySqlConnect.ConectarDb();
-		
+
 		String sql = "SELECT * FROM  contact;";
 		try {
 			ResultSet rs =	con.createStatement().executeQuery(sql);
-			
+
 			while(rs.next()){
 				String nome = rs.getString("name");
 				String telefone = rs.getString("phone");
@@ -42,38 +42,39 @@ public class ContatoController implements Initializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-	} 
+
+
+	}
 	@FXML public void InserirContatos() {
-		
+
 		Connection con = MySqlConnect.ConectarDb();
-		
-		
+
+
 		String sql = "insert into contact (name, phone) values(?,?);";
-		
+
 		PreparedStatement parametros;
-		
+
 		try {
 			parametros = con.prepareStatement(sql);
 			parametros.setString(1,txtNome.getText());
 			parametros.setString(2,txtTelefone.getText());
-			
+
 			parametros.executeUpdate();
-			
+
 			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
+
+
+
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+		//metodo para preencher a lista
 		preencherLista();
 	}
-	
+
 }
